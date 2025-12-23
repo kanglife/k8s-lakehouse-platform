@@ -1,0 +1,116 @@
+프로젝트명: k8s-lakehouse-platform
+
+[전체 스프린트 구조]
+
+Sprint 0 — 프로젝트 기초 세팅 (완료)
+목적:
+- 프로젝트 범위와 방향 고정
+
+작업:
+- GitHub repo 생성
+- 로컬 clone
+- 디렉토리 구조 생성
+  - docs/
+  - k8s/
+  - pipelines/
+  - scripts/
+- README.md (한글) 작성
+- 초기 커밋
+
+완료 기준:
+- GitHub에 구조 + README 커밋 존재
+- 프로젝트 목적 설명 가능
+
+상태: 완료
+
+
+Sprint 1 — 저장소(S3) 준비 (완료)
+목적:
+- 데이터 파이프라인의 저장 기반 마련
+
+작업:
+- S3 버킷 2개 생성
+  - k8s-lakehouse-raw
+  - k8s-lakehouse-warehouse
+- 리전 통일 (ap-northeast-2)
+- 퍼블릭 액세스 차단 ON
+- 기본 암호화 SSE-S3
+
+완료 기준:
+- S3 콘솔에서 버킷 2개 확인 가능
+- 설정 이유 설명 가능
+
+상태: 완료
+
+
+Sprint 2 — 입력 데이터 준비 (현재 진행 예정)
+목적:
+- 데이터 파이프라인의 출발점 생성
+
+작업:
+- 입력 데이터 스펙 확정
+  - user_id
+  - event_type
+  - page
+  - event_time
+- S3 Raw 경로 규칙 확정
+  - s3://k8s-lakehouse-raw/events/date=YYYY-MM-DD/events.json
+- Python 데이터 생성기 구현
+- boto3를 통해 S3 업로드
+- S3 콘솔에서 파일 확인
+
+완료 기준:
+- Raw 버킷에 날짜 파티션 경로 생성
+- events.json 파일 존재
+- Spark가 바로 읽을 수 있는 상태
+
+상태: 현재 위치 (Sprint 2 시작 전, 설계 합의 단계)
+
+
+Sprint 3 — Spark 배치 파이프라인
+목적:
+- Raw 데이터를 처리 가능한 형태로 변환
+
+작업:
+- Spark로 JSON 읽기
+- 컬럼 정리
+- Parquet 변환
+- S3 Warehouse 저장
+
+완료 기준:
+- Parquet 파일 생성
+- Spark 단독 실행 성공
+
+
+Sprint 4 — Iceberg + Trino (Lakehouse 완성)
+목적:
+- 파일 기반 저장소를 테이블 구조로 승격
+
+작업:
+- Iceberg catalog 설정
+- Spark → Iceberg write
+- Trino → Iceberg read
+
+완료 기준:
+- Trino에서 SQL 조회 성공
+  - SELECT COUNT(*) FROM events;
+
+
+Sprint 5 — Airflow 오케스트레이션
+목적:
+- 수동 실행 제거 및 운영 감각 확보
+
+작업:
+- Airflow DAG 1개 작성
+- Spark 배치 잡 실행
+- 실패 시 retry + 로그 확인
+
+완료 기준:
+- 실패 → retry → 성공 흐름 검증
+- Airflow 로그로 재시도 확인 가능
+
+
+[현재 위치 요약]
+- Sprint 0: 완료
+- Sprint 1: 완료
+- Sprint 2: 시작 직전 (입력 데이터 스펙 및 경로 확정 단계)

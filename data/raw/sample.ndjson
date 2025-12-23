@@ -1,0 +1,3 @@
+{"user_id": 1, "event": "click", "ts": "2025-12-01T10:00:00"}
+{"user_id": 2, "event": "view",  "ts": "2025-12-01T10:01:00"}
+{"user_id": 3, "event": "purchase", "ts": "2025-12-01T10:02:00"}
