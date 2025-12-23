@@ -43,4 +43,13 @@ Trino로 SQL 분석이 가능한 Lakehouse 구조를 구성합니다.
 아래 조건을 만족하면 프로젝트를 완료한 것으로 간주합니다.
 
 - Spark 배치 잡을 Airflow DAG으로 실행 가능
-- Icebe
+- Iceberg 테이블이 S3에 정상적으로 생성 및 관리됨
+- Trino를 통해 Iceberg 테이블 SQL 조회 가능
+- Spark 잡 실패 시 Airflow retry 동작이 로그로 확인됨
+
+---
+
+## 참고 사항
+- 로컬 Kubernetes 환경의 한계로 인해 S3 접근은 Access Key 방식으로 구성합니다.
+- 운영 환경에서는 IAM Roles for Service Account(IRSA)를 사용하는 것을 전제로 설계했습니다.
+- 데이터 품질 관리, 모니터링, 실시간 스트리밍(Flink)은 확장 범위로 제외했습니다.
